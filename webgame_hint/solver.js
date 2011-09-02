@@ -1,0 +1,38 @@
+// vim: set et sts=2 sw=2 ts=2 fdm=marker ft=javascript :
+
+/*
+var element = document.getElementById('card0');
+if (element == null) {
+  alert('Card element is not found. Check element id.');
+} else {
+  var myevent = document.createEvent('MouseEvents');
+  myevent.initEvent('click', false, true);
+  element.dispatchEvent(myevent);
+  alert('Card color is "' + element.style.backgroundColor + '".');
+}
+*/
+
+
+var num = 0;
+var color = [];
+while ((element = document.getElementById('card' + num)) != null) {
+  var myevent = document.createEvent('MouseEvents');
+  myevent.initEvent('click', false, true);
+  element.dispatchEvent(myevent);
+  color[num] = element.style.backgroundColor;
+  num++;
+}
+
+var end = num;
+for (var i = 0; i < end; i++) {
+  for (var j = 0; j < end; j++) {
+    // alert('Card color is "' + color[i] + '".');
+    if (i == j) {
+      continue;
+    } else {
+    }
+  }
+}
+
+
+
