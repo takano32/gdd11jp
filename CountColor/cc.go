@@ -1,4 +1,4 @@
-// vim: set noet sts=4 sw=4 ts=4 fdm=marker ft=go :
+// vim: set ai noet sts=4 sw=4 ts=4 fdm=marker ft=go :
 package main
 
 import (
@@ -12,33 +12,33 @@ import (
 
 func CountColor(pngR io.Reader) int {
 	/* modify here */
-	uniq := new (vector.IntVector)
-	// rVector := new (vector.IntVector)
+	// uniq := new (vector.Vector[uint32])
+	var colorVector vector.Vector;
+	var rVector vector.IntVector;
+	var gVector vector.IntVector;
+	var bVector vector.IntVector;
 	im, _ := png.Decode(pngR)
 	for y := 0; y < im.Bounds().Dy(); y++ {
 		for x := 0; x < im.Bounds().Dx(); x++ {
 			color := im.At(x, y)
 			unique := true
-			R, G, B, _ := color.RGBA()
-			C := R * 0x10000 + G * 0x100 + B
-			c := 0
-			for i := 0; i < uniq.Len(); i++ {
-				// r, g, b, _ := uniq.At(i).RGBA()
-				r := uniq.At(i) / 0x10000
-				g := (uniq.At(i) % 0x10000) / 0x100
-				b := uniq.At(i) % 0x100
-				c = r * 0x10000 + g * 0x100 + b
-				fmt.Println(R)
-				if uint32(c) == C {
+			r, g, b, _ := color.RGBA()
+			for i := 0; i < colorVector.Len(); i++ {
+				if r == uint32(rVector.At(i)) &&
+					g == uint32(gVector.At(i)) &&
+					b == uint32(bVector.At(i)) {
 					unique = false
 				}
 			}
 			if unique == true {
-				uniq.Push(c)
+				colorVector.Push(color)
+				rVector.Push(int(r))
+				gVector.Push(int(g))
+				bVector.Push(int(b))
 			}
 		}
 	}
-	return uniq.Len()
+	return colorVector.Len()
 }
 
 
