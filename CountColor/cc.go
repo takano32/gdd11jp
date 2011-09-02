@@ -6,34 +6,39 @@ import (
 		"io"
 		"strings"
 		/* add more */
-		"image"
 		"image/png"
 		"container/vector"
 )
 
 func CountColor(pngR io.Reader) int {
 	/* modify here */
-	uniq := new (vector.Vector)
+	uniq := new (vector.IntVector)
+	// rVector := new (vector.IntVector)
 	im, _ := png.Decode(pngR)
 	for y := 0; y < im.Bounds().Dy(); y++ {
 		for x := 0; x < im.Bounds().Dx(); x++ {
-			// color := image.NRGBAColorModel.Convert(im.At(x, y))
 			color := im.At(x, y)
-			fmt.Println(color)
 			unique := true
+			R, G, B, _ := color.RGBA()
+			C := R * 0x10000 + G * 0x100 + B
+			c := 0
 			for i := 0; i < uniq.Len(); i++ {
-				r, g, b, _ := uniq.At(i).RGBA()
-				R, G, B, _ := color.RGBA()
-				if r == R && g == G && b == B {
+				// r, g, b, _ := uniq.At(i).RGBA()
+				r := uniq.At(i) / 0x10000
+				g := (uniq.At(i) % 0x10000) / 0x100
+				b := uniq.At(i) % 0x100
+				c = r * 0x10000 + g * 0x100 + b
+				fmt.Println(R)
+				if uint32(c) == C {
 					unique = false
 				}
 			}
 			if unique == true {
-				uniq.Push(color)
+				uniq.Push(c)
 			}
 		}
 	}
-	return 0
+	return uniq.Len()
 }
 
 
