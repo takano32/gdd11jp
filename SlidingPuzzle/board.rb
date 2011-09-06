@@ -72,6 +72,7 @@ class SlidingPuzzle::Board
 		succBoards.each do |board|
 			return board if goal?(board)
 		end
+		puts @all_boards.size
 		solve(succBoards)
 	end
 
@@ -109,8 +110,8 @@ if __FILE__ == $0 then
 	#server = DRbObject.new_with_uri('druby://localhost:12345')
 	#p server.board(1)
 	#b = SlidingPuzzle::Board.new(5, 6, '12=E4D9HIF8=GN576LOABMTPKQSR0J')
-	#b = SlidingPuzzle::Board.new(3, 3, '86725431=')
-	b = SlidingPuzzle::Board.new(3, 3, '1234567=8')
+	b = SlidingPuzzle::Board.new(3, 3, '86725431=')
+	#b = SlidingPuzzle::Board.new(3, 3, '1234567=8')
 	p b.solve
 end
 
