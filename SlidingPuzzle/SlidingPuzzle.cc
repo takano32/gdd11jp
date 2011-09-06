@@ -27,8 +27,10 @@ class Board {
 		Board(int width, int height, string linear_board);
 		Board(int width, int height, vector<string> _board);
 		void _initialize_adjacent();
+		bool operator==(Board &board);
 		int width() {return _width; };
 		int height() {return _height; };
+		vector<string> board() {return _board; };
 		void dump();
 };
 
@@ -83,6 +85,10 @@ void Board::_initialize_adjacent() {
 			_adjacent.push_back(ps);
 		}
 	}
+}
+
+bool Board::operator==(Board &board) {
+	return _board == board.board();
 }
 
 void Board::dump() {
