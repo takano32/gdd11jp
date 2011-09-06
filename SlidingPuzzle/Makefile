@@ -1,5 +1,5 @@
 CPPFLAGS=-g -lstdc++
-CXX=llvm-gcc
+CXX=gcc-mp-4.6
 
 run:	SlidingPuzzle
 	./SlidingPuzzle
