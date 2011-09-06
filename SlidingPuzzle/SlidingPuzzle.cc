@@ -6,6 +6,7 @@
 using namespace std;
 
 class Board;
+
 class Position {
 	private:
 		int _x, _y;
@@ -16,7 +17,6 @@ class Position {
 		bool is_on(Board *board);
 };
 
-
 class Board {
 	private:
 		int _width;
@@ -25,10 +25,11 @@ class Board {
 		vector<vector<Position> > _adjacent;
 	public:
 		Board(int width, int height, string linear_board);
+		Board(int width, int height, vector<string> _board);
+		void _initialize_adjacent();
 		int width() {return _width; };
 		int height() {return _height; };
 		void dump();
-		// int order(Position &pos);
 };
 
 Position::Position(int x, int y) {
@@ -58,7 +59,16 @@ Board::Board(int width, int height, string linear_board) {
 		line << linear_board[i];
 	}
 	_board.push_back(line.str());
+	_initialize_adjacent();
+}
 
+Board::Board(int width, int height, vector<string> board) {
+	_width = width;
+	_height = height;
+	_board = board;
+}
+
+void Board::_initialize_adjacent() {
 	for(int y = 0; y < _height; y++) {
 		for(int x = 0; x < _width; x++) {
 			Position u(x, y - 1);
@@ -71,10 +81,6 @@ Board::Board(int width, int height, string linear_board) {
 			if (l.is_on(this)) ps.push_back(l);
 			if (r.is_on(this)) ps.push_back(r);
 			_adjacent.push_back(ps);
-			for (vector<Position>::iterator p = ps.begin(); p < ps.end(); p++) {
-				cout << "(x, y) = " << "(" << p->x() << ", " << p->y() << ")" << endl;
-			}
-			cout << endl;
 		}
 	}
 }
@@ -84,13 +90,6 @@ void Board::dump() {
 		cout << *i << endl;
 	}
 }
-
-
-/*
-int Board::order(Position &pos) {
-	return pos.y() * _width + pos.x();
-}
-*/
 
 int main(int argc, char* []) {
 	Board* b = new Board(3, 3, "86725431=");
