@@ -26,13 +26,13 @@ class Board {
 	public:
 		Board(int width, int height, string linear_board);
 		Board(int width, int height, vector<string> _board);
-		Board clone();
 		void _initialize_adjacent();
 		bool operator==(Board &board);
 		int width() {return _width; };
 		int height() {return _height; };
 		vector<string> board() {return _board; };
 		void dump();
+		bool is_end();
 		Board slide(Position &space, Position &target);
 		vector<Board> succ();
 };
@@ -74,10 +74,6 @@ Board::Board(int width, int height, vector<string> board) {
 	_initialize_adjacent();
 }
 
-Board Board::clone() {
-	return Board(_width, _height, _board);
-}
-
 void Board::_initialize_adjacent() {
 	for(int y = 0; y < _height; y++) {
 		vector<vector<Position> > pss;
@@ -109,6 +105,18 @@ void Board::dump() {
 	cout << endl;
 }
 
+bool Board::is_end() {
+	char ch = '0';
+	for (int y = 0; y < _height; y++) {
+		for (int x = 0; x < _width; x++) {
+			ch++;
+			if (ch == '9' + 1) ch = 'A';
+			if (ch != _board[y][x] && '=' != _board[y][x]) return false;
+		}
+	}
+	return true;
+}
+
 Board Board::slide(Position &space, Position &target) {
 	vector<string> new_board = _board;
 	int x1 = space.x();
@@ -135,7 +143,6 @@ vector<Board> Board::succ() {
 	}
 
 	for (vector<Position>::iterator space = spaces.begin(); space < spaces.end(); space++) {
-		if (_adjacent.size() == 0) return boards;
 		vector<Position> targets = _adjacent[space->y()][space->x()];
 		for (vector<Position>::iterator target = targets.begin(); target < targets.end(); target++) {
 			boards.push_back(slide(*space, *target));
@@ -166,17 +173,18 @@ void SlidingPuzzle::solve(vector<Board> boards) {
 	vector<Board> next_boards;
 
 	for (vector<Board>::iterator board = boards.begin(); board < boards.end(); board++) {
-		board->dump();
 		vector<Board> succ = board->succ();
 
 		for (vector<Board>::iterator next_board = succ.begin(); next_board < succ.end(); next_board++) {
-			next_board->dump();
 			bool match = false;
 			for (vector<Board>::iterator cmp = _boards.begin(); cmp < _boards.end(); cmp++) {
 				if ((*cmp) == (*next_board)) match = true;
 			}
 			if (match == false) {
-				next_boards.push_back(next_board->clone());
+				if (next_board->is_end() == true) {
+					next_board->dump();
+				}
+				next_boards.push_back(*next_board);
 			}
 		}
 	}
@@ -197,19 +205,3 @@ int main(int argc, char* []) {
 }
 
 
-/*
- *
-	def goal?(board = @board)
-		ch = '0'
-		(0...@height).each do |y|
-			(0...@width).each do |x|
-				ch.succ!
-				ch = 'A' if ch == '10'
-				return false unless (ch == board[y][x] or '=' == board[y][x])
-			end
-		end
-		return true
-	end
-
- *
- */
