@@ -99,6 +99,7 @@ bool Board::operator==(Board &board) {
 }
 
 void Board::dump() {
+	cout << endl;
 	for(vector<string>::iterator i = _board.begin(); i < _board.end(); i++) {
 		cout << *i << endl;
 	}
@@ -178,13 +179,19 @@ void SlidingPuzzle::solve(vector<Board> boards) {
 		for (vector<Board>::iterator next_board = succ.begin(); next_board < succ.end(); next_board++) {
 			bool match = false;
 			for (vector<Board>::iterator cmp = _boards.begin(); cmp < _boards.end(); cmp++) {
-				if ((*cmp) == (*next_board)) match = true;
+				if ((*cmp) == (*next_board)) {
+					match = true;
+					break;
+				}
 			}
 			if (match == false) {
 				if (next_board->is_end() == true) {
+					cout << _boards.size() << endl;
 					next_board->dump();
+					return;
 				}
 				next_boards.push_back(*next_board);
+				_boards.push_back(*next_board);
 			}
 		}
 	}
@@ -192,13 +199,14 @@ void SlidingPuzzle::solve(vector<Board> boards) {
 	if (next_boards.size() == 0) {
 		return;
 	} else {
-		cout << next_boards.size() << endl;
+		cout << _boards.size() << endl;
 		return solve(next_boards);
 	}
 }
 
 int main(int argc, char* []) {
 	Board b(3, 3, "86725431=");
+	// Board b(3, 3, "=23156478");
 	SlidingPuzzle puzzle(b);
 	puzzle.solve();
 	return 0;
