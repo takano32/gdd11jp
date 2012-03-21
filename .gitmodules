@@ -4,3 +4,9 @@
 [submodule "gdd11jp-SlidingPuzzle-cpp"]
 	path = gdd11jp-SlidingPuzzle-cpp
 	url = git@github.com:takano32/gdd11jp-SlidingPuzzle-cpp.git
+[submodule "gdd11jp-CountColor"]
+	path = gdd11jp-CountColor
+	url = git@github.com:takano32/gdd11jp-CountColor.git
+[submodule "gdd11jp-WebgameHint"]
+	path = gdd11jp-WebgameHint
+	url = git@github.com:takano32/gdd11jp-WebgameHint.git
