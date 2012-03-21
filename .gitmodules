@@ -1,0 +1,6 @@
+[submodule "gdd11jp-SlidingPuzzle-rb"]
+	path = gdd11jp-SlidingPuzzle-rb
+	url = git@github.com:takano32/gdd11jp-SlidingPuzzle-rb.git
+[submodule "gdd11jp-SlidingPuzzle-cpp"]
+	path = gdd11jp-SlidingPuzzle-cpp
+	url = git@github.com:takano32/gdd11jp-SlidingPuzzle-cpp.git
